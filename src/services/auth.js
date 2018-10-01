@@ -22,7 +22,7 @@ export default class Auth{
             }
         })
     }
-    setSession = () => {
+    setSession = (authResult) => {
         let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
