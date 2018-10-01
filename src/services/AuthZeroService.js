@@ -32,7 +32,7 @@ export default class AuthZeroService{
     logout = () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
-        localStorage.remoteItem('expires_at');
+        localStorage.removeItem('expires_at');
         console.log('Logout, redirect to home!!!');
     }
     isAuthenticated = () => {
