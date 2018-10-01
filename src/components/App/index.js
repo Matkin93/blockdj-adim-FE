@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
-import Auth from './services/auth';
+import Auth from '../../services/auth';
 
 class App extends Component {
   render() {
