@@ -5,7 +5,7 @@ export default class AuthZeroService{
     auth0 = new auth0.WebAuth({
         domain: config.domain,
         clientID: config.clientID,
-        redirectUri: 'http://localhost:3000/callback',
+        redirectUri: config.callbackUri,
         responseType: 'token id_token',
         scope: 'openid'
     });
@@ -19,8 +19,8 @@ export default class AuthZeroService{
                 this.setSession(authResult, props);
                 history.replace('/')
             }else if(err){
-                history.replace('/')
                 console.log(err);
+                history.replace('/unauthorised');
             }
         })
     }
@@ -36,7 +36,7 @@ export default class AuthZeroService{
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
-        window.location.href=config.logoutUrl;
+        window.location.href = config.logoutUri;
     }
     isAuthenticated = () => {
         const expires = JSON.parse(localStorage.getItem('expires_at'));
