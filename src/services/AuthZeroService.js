@@ -32,11 +32,10 @@ export default class AuthZeroService{
         history.push('/');
     }
     logout = (props) => {
-        const {history} = props;
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
-        history.push('/')
+        window.location.href='https://blockdj.eu.auth0.com/v2/logout?returnTo=http%3A%2F%2Flocalhost%3A3000'
     }
     isAuthenticated = () => {
         const expires = JSON.parse(localStorage.getItem('expires_at'));

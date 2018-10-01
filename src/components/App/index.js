@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Route, Switch} from 'react-router-dom';
 import AuthZeroService from '../../services/AuthZeroService';
 import Auth from '../Auth';
-import Login from '../Login';
 import Callback from '../Callback';
 
 class App extends Component {
