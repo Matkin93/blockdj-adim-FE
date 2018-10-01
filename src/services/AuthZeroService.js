@@ -8,35 +8,38 @@ export default class AuthZeroService{
         redirectUri: 'http://localhost:3000/callback',
         responseType: 'token id_token',
         scope: 'openid'
-    }) 
+    });
     login = () => {
         this.auth0.authorize();
     }
-    handleAuthentication = () => {
+    handleAuthentication = (props) => {
+        const {history} = props;        
         this.auth0.parseHash((err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken){
-                this.setSession(authResult);
-                console.log('I would redirect to home here!!!');
+                this.setSession(authResult, props);
+                history.push('/')
             }else if(err){
                 console.log(err);
             }
         })
     }
-    setSession = (authResult) => {
-        let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    setSession = (authResult, props) => {
+        const {history} = props;        
+        const expires = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
-        localStorage.setItem('expires_at', expiresAt);
-        console.log('Set session, redirect to home!!!');
+        localStorage.setItem('expires_at', expires);
+        history.push('/');
     }
-    logout = () => {
+    logout = (props) => {
+        const {history} = props;
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
-        console.log('Logout, redirect to home!!!');
+        history.push('/')
     }
     isAuthenticated = () => {
-        let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-        return new Date().getTime() < expiresAt;
+        const expires = JSON.parse(localStorage.getItem('expires_at'));
+        return new Date().getTime() < expires;
     }
 }

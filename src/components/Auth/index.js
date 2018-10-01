@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Redirect } from 'react-router-dom';
-
 const Auth = props => {
-    const {isAuthenticated, children} = props;
-    if (!isAuthenticated()) return <Redirect to="/login"/>
-    else return children
+    const {isAuthenticated, login, children} = props;
+    if (isAuthenticated()) return children
+    else return (
+        <button onClick={() => login()}>Login</button>
+    )
 }
 
 Auth.propTypes = {

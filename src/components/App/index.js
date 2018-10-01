@@ -11,14 +11,11 @@ class App extends Component {
     return (
       <Switch>
         <Route exact path="/" render={(props) => (
-          <Auth {...props} isAuthenticated={azs.isAuthenticated}>
+          <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
             <p>I am logged in</p>
-            <button onClick={()=> azs.logout()}>Logout</button>
+            <button onClick={()=> azs.logout(props)}>Logout</button>
           </Auth>)}
         />
-        <Route exact path="/login" render={(props) => (
-          <Login {...props} login={azs.login}/>
-        )}/>
         <Route exact path="/callback" render={(props) => {
           this.handleAuthentication(props);
           return <Callback {...props}/>
@@ -26,10 +23,10 @@ class App extends Component {
       </Switch>
     )
   }
-  handleAuthentication = (nextState, replace) => {
+  handleAuthentication = (props) => {
     const azs = new AuthZeroService();
-    if (/access_token|id_token|error/.test(nextState.location.hash)) {
-      azs.handleAuthentication();
+    if (/access_token|id_token|error/.test(props.location.hash)) {
+      azs.handleAuthentication(props);
     }
   }
 }
