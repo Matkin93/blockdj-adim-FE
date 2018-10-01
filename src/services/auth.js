@@ -9,7 +9,7 @@ export default class Auth{
         scope: 'openid'
     })
 
-    login() {
+    login = () => {
         this.auth0.authorize();
     }
 }
