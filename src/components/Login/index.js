@@ -1,9 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const index = (props) => {
+const Login = (props) => {
     const {login} = props;
-    console.log(props);
     return login();
 };
 
-export default index;
+Login.propTypes = {
+    login: PropTypes.func.isRequired
+}
+
+export default Login;
