@@ -17,25 +17,26 @@ export default class AuthZeroService{
         this.auth0.parseHash((err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken){
                 this.setSession(authResult, props);
-                history.push('/')
+                history.replace('/')
             }else if(err){
+                history.replace('/')
                 console.log(err);
             }
         })
     }
     setSession = (authResult, props) => {
         const {history} = props;        
-        const expires = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+        const expires = JSON.stringify((authResult.expiresIn * config.authTokenTimeout) + new Date().getTime());
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', expires);
-        history.push('/');
+        history.replace('/');
     }
-    logout = (props) => {
+    logout = () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
-        window.location.href='https://blockdj.eu.auth0.com/v2/logout?returnTo=http%3A%2F%2Flocalhost%3A3000'
+        window.location.href=config.logoutUrl;
     }
     isAuthenticated = () => {
         const expires = JSON.parse(localStorage.getItem('expires_at'));

@@ -12,7 +12,7 @@ class App extends Component {
         <Route exact path="/" render={(props) => (
           <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
             <p>I am logged in</p>
-            <button onClick={()=> azs.logout(props)}>Logout</button>
+            <button onClick={azs.logout}>Logout</button>
           </Auth>)}
         />
         <Route exact path="/callback" render={(props) => {
