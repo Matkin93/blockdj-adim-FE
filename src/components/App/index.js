@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
-import Auth from '../../services/auth';
+import {Route, Switch} from 'react-router-dom';
+import AuthZeroService from '../../services/AuthZeroService';
+import Auth from '../Auth';
+import Login from '../Login';
 
 class App extends Component {
   render() {
-    const auth = new Auth();
+    const azs = new AuthZeroService();
     return (
-      <div className="App">
-          {auth.login()}
-      </div>
-    );
+      <Switch>
+        <Route exact path="/" render={(props) => (
+          <Auth {...props} isAuthenticated={azs.isAuthenticated}>
+            <p>I am logged in</p>
+          </Auth>)}
+        />
+        <Route exact path="/login" render={(props) => (
+          <Login {...props} login={azs.login}/>
+        )}/>
+      </Switch>
+    )
   }
 }
 

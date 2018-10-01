@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js';
 import config from '../config';
 
-export default class Auth{
+export default class AuthZeroService{
     auth0 = new auth0.WebAuth({
         domain: config.domain,
         clientID: config.clientID,
