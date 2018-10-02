@@ -175,11 +175,11 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, Circle, FeatureGroup } from 'react-leaflet';
 import L from 'leaflet';
-import { EditControl } from '../leaflet/EditControl';
+import EditControl from '../leaflet/EditControl';
 // import { EditControl } from "react-leaflet-draw"
 
 
-export default class EditControlExample extends Component {
+export default class MapPage extends Component {
 
     state = {
         areaCoords: [],
