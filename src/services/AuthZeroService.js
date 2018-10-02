@@ -6,8 +6,9 @@ export default class AuthZeroService{
         domain: config.domain,
         clientID: config.clientID,
         redirectUri: config.callbackUri,
-        responseType: 'token id_token',
-        scope: 'openid'
+        responseType: config.responseType,
+        audience: config.audience,
+        scope: config.scope,
     });
     login = () => {
         this.auth0.authorize();
