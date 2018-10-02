@@ -8,7 +8,8 @@ export default class MapPage extends Component {
     state = {
         areaCoords: [],
         area: '',
-        image: ''
+        image: '',
+        city: 'Manchester'
     }
 
     _onCreated = (e) => {
@@ -24,14 +25,16 @@ export default class MapPage extends Component {
             geoCoords.forEach((point, index) => {
                 latLongs.push([point.lat, point.lng]);
             });
+            const allAreaCoords = [...this.state.areaCoords, latLongs]
             console.log(latLongs);
             this.setState({
-                areaCoords: latLongs
+                areaCoords: allAreaCoords
             });
-
+            console.log(this.state)
         }
         // Do whatever else you need to. (save to db; etc)
-
+        console.log('reset state here');
+        console.log(this.state);
         this._onChange();
     }
 
@@ -61,7 +64,7 @@ export default class MapPage extends Component {
     render() {
         return (
             <div>
-                <Map style={{ height: '500px', width: '500px' }} center={[53.4808, -2.2426]} zoom={13} zoomControl={false}>
+                <Map style={{ height: '700px', width: '1000px' }} center={[53.4808, -2.2426]} zoom={13} zoomControl={false}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
@@ -85,6 +88,9 @@ export default class MapPage extends Component {
                 </Map>
                 <div>
                     <form onSubmit={(e) => { this.submitArea(e) }}>
+                        <select>
+                            <option selected value="Manchester">Manchester</option>
+                        </select>
                         <input onChange={this.handleArea} placeholder="areaName"></input>
                         <input onChange={this.handleImage} placeholder="image Url"></input>
                         <button>Submit</button>
