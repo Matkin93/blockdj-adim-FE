@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import {Route, Switch} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import AuthZeroService from '../../services/AuthZeroService';
 import Auth from '../Auth';
 import Callback from '../Callback';
+import MapPage from '../MapPage';
 
 class App extends Component {
   render() {
@@ -17,8 +18,9 @@ class App extends Component {
         />
         <Route exact path="/callback" render={(props) => {
           this.handleAuthentication(props);
-          return <Callback {...props}/>
-        }}/>
+          return <Callback {...props} />
+        }} />
+        <Route exact path="/Map" component={MapPage} />
       </Switch>
     )
   }
