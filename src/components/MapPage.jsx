@@ -64,7 +64,7 @@ export default class MapPage extends Component {
     render() {
         return (
             <div>
-                <Map style={{ height: '700px', width: '1000px' }} center={[53.4808, -2.2426]} zoom={13} zoomControl={false}>
+                <Map style={{ height: '200px', width: '500px' }} center={[53.4808, -2.2426]} zoom={13} zoomControl={false}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
@@ -93,7 +93,7 @@ export default class MapPage extends Component {
                         </select>
                         <input onChange={this.handleArea} placeholder="areaName"></input>
                         <input onChange={this.handleImage} placeholder="image Url"></input>
-                        <button>Submit</button>
+                        <button className="submit-button">Submit</button>
                     </form>
                 </div>
             </div >
