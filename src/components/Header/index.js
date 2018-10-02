@@ -35,7 +35,7 @@ class Header extends Component {
                 </Navbar> 
                 <Jumbotron fluid>
                     <Container>
-                        <h1 className="display-5">{title}</h1>
+                        <h1 className="display-5    ">{title}</h1>
                         <p className="lead">{description}</p>
                     </Container>
                 </Jumbotron>
