@@ -19,7 +19,7 @@ const eventHandlers = {
     onDeleteStop: 'draw:deletestop',
 };
 
-export default class EditControl extends LayersControl {
+class EditControl extends LayersControl {
     static propTypes = {
         ...Object.keys(eventHandlers).reduce((acc, val) => {
             acc[val] = PropTypes.func;
@@ -135,3 +135,5 @@ export default class EditControl extends LayersControl {
         this.leafletElement = new L.Control.Draw(options); // eslint-disable-line
     };
 }
+
+export default EditControl;

@@ -6,6 +6,7 @@ import Callback from '../Callback';
 import Unauthorised from '../Unauthorised';
 import Areas from '../Areas';
 import Layout from '../Layout';
+import MapPage from '../MapPage';
 
 class App extends Component {
   render() {
@@ -32,6 +33,7 @@ class App extends Component {
           </Layout>
         )}
         />
+        <Route exact path="/map" component={MapPage} />
       </Switch>
     )
   }
