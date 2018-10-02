@@ -3,7 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import AuthZeroService from '../../services/AuthZeroService';
 import Auth from '../Auth';
 import Callback from '../Callback';
-import MapPage from '../MapPage';
+import Unauthorised from '../Unauthorised';
+import Areas from '../Areas';
+import Layout from '../Layout';
 
 class App extends Component {
   render() {
@@ -12,23 +14,26 @@ class App extends Component {
       <Switch>
         <Route exact path="/" render={(props) => (
           <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
-            <p>I am logged in</p>
-            <button onClick={azs.logout}>Logout</button>
+            <Layout logout={azs.logout} title="Home" description="Something, Something, Dark Side">
+              <div className="container">
+                <p>I am logged in</p>
+              </div>
+            </Layout>
           </Auth>)}
         />
         <Route exact path="/callback" render={(props) => {
-          this.handleAuthentication(props);
-          return <Callback {...props} />
+          return <Callback {...props} handleAuthentication={azs.handleAuthentication} />
         }} />
-        <Route exact path="/Map" component={MapPage} />
+        <Route exact path="/unauthorised" render={(props) => {
+          return <Unauthorised {...props} logout={azs.logout} />
+        }} />
+        <Route exact path="/areas" render={(props) => (
+          <Layout logout={azs.logout} title="Areas" description="Cities and areas covered by this website">
+          </Layout>
+        )}
+        />
       </Switch>
     )
-  }
-  handleAuthentication = (props) => {
-    const azs = new AuthZeroService();
-    if (/access_token|id_token|error/.test(props.location.hash)) {
-      azs.handleAuthentication(props);
-    }
   }
 }
 

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'reactstrap';
 
 const Auth = props => {
     const {isAuthenticated, login, children} = props;
     if (isAuthenticated()) return children
     else return (
-        <button onClick={() => login()}>Login</button>
+        <Button color="primary" onClick={() => login()}>Login</Button>
     )
 }
 

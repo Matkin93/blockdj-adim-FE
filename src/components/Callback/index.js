@@ -8,6 +8,12 @@ class Callback extends Component {
             </div>
         );
     }
+    componentDidMount(){
+        const {location, handleAuthentication} = this.props;
+        if (/access_token|id_token|error/.test(location.hash)) {
+          handleAuthentication(this.props);
+        }
+    }
 }
 
 export default Callback;
