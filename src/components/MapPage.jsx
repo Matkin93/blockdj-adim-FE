@@ -3,6 +3,7 @@ import { Map, TileLayer, Circle, FeatureGroup } from 'react-leaflet';
 import L from 'leaflet';
 import EditControl from '../leaflet/EditControl';
 import * as API from '../API';
+import './map.css';
 
 export default class MapPage extends Component {
 
@@ -32,7 +33,6 @@ export default class MapPage extends Component {
             this.setState({
                 areaCoords: allAreaCoords
             });
-            console.log(this.state)
         }
         // Do whatever else you need to. (save to db; etc)
         this._onChange();
@@ -64,7 +64,7 @@ export default class MapPage extends Component {
     render() {
         return (
             <div>
-                <Map style={{ height: '200px', width: '500px' }} center={[53.4808, -2.2426]} zoom={13} zoomControl={false}>
+                <Map className="map-div" center={[53.4808, -2.2426]} zoom={13} zoomControl={false}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
@@ -87,13 +87,14 @@ export default class MapPage extends Component {
                     </FeatureGroup>
                 </Map>
                 <div>
-                    <form onSubmit={(e) => { this.submitArea(e) }}>
+                    <form className="map-form" onSubmit={(e) => { this.submitArea(e) }}>
                         <select>
                             <option selected value="Manchester">Manchester</option>
                         </select>
-                        <input onChange={this.handleArea} placeholder="areaName"></input>
-                        <input onChange={this.handleImage} placeholder="image Url"></input>
+                        <input className="area-name" onChange={this.handleArea} placeholder="areaName"></input>
+                        <input className="image-url" onChange={this.handleImage} placeholder="image Url"></input>
                         <button className="submit-button">Submit</button>
+                        {/* <div className={!this.state.areaCoords.length > 1 ? 'error-flash' : null}>{errorMessage}</div> */}
                     </form>
                 </div>
             </div >
@@ -102,24 +103,27 @@ export default class MapPage extends Component {
 
     submitArea = (e) => {
         e.preventDefault();
-        console.log(this.state);
-        const areaObj = {
-            "name": this.state.area,
-            "details": this.state.details,
-            "image_url": this.state.image,
-            "bounds": {
-                "type": "Polygon",
-                "coordinates": this.state.areaCoords
-            }
+        if (!this.state.areaCoords.lenght > 0) {
+
         }
-        console.log(areaObj)
-        API.createAreaInCity(areaObj);
-        this.setState({
-            areaCoords: [],
-            area: '',
-            details: '',
-            image: ''
-        })
+        else {
+            const areaObj = {
+                "name": this.state.area,
+                "details": this.state.details,
+                "image_url": this.state.image,
+                "bounds": {
+                    "type": "Polygon",
+                    "coordinates": this.state.areaCoords
+                }
+            }
+            API.createAreaInCity(areaObj);
+            this.setState({
+                areaCoords: [],
+                area: '',
+                details: '',
+                image: ''
+            })
+        }
     }
 
     handleArea = (e) => {
@@ -167,6 +171,7 @@ export default class MapPage extends Component {
         const geojsonData = this._editableFG.leafletElement.toGeoJSON();
         onChange(geojsonData);
     }
+
 }
 
 // data taken from the example in https://github.com/PaulLeCam/react-leaflet/issues/176

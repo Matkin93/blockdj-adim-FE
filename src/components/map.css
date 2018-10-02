@@ -1,0 +1,14 @@
+.map-div {
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    width: 500px;
+    height: 500px;
+}
+
+.map-form {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
