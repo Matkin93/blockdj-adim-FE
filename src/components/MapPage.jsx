@@ -28,6 +28,7 @@ export default class MapPage extends Component {
             this.setState({
                 areaCoords: latLongs
             });
+
         }
         // Do whatever else you need to. (save to db; etc)
 
@@ -129,10 +130,10 @@ export default class MapPage extends Component {
         // populate the leaflet FeatureGroup with the geoJson layers
 
         let leafletGeoJSON = new L.GeoJSON(getGeoJson());
-        let leafletFG = reactFGref.leafletElement;
+        // let leafletFG = reactFGref.leafletElement;
 
         leafletGeoJSON.eachLayer((layer) => {
-            leafletFG.addLayer(layer);
+            // leafletFG.addLayer(layer);
         });
 
         // store the ref for future access to content
