@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Map, TileLayer, Circle, FeatureGroup } from 'react-leaflet';
 import L from 'leaflet';
 import EditControl from '../leaflet/EditControl';
+import * as API from '../API';
 
 export default class MapPage extends Component {
 
     state = {
         areaCoords: [],
         area: '',
+        details: '',
         image: '',
         city: 'Manchester'
     }
@@ -33,8 +35,6 @@ export default class MapPage extends Component {
             console.log(this.state)
         }
         // Do whatever else you need to. (save to db; etc)
-        console.log('reset state here');
-        console.log(this.state);
         this._onChange();
     }
 
@@ -104,13 +104,20 @@ export default class MapPage extends Component {
         e.preventDefault();
         console.log(this.state);
         const areaObj = {
-            ...this.state
+            "name": this.state.area,
+            "details": this.state.details,
+            "image_url": this.state.image,
+            "bounds": {
+                "type": "Polygon",
+                "coordinates": this.state.areaCoords
+            }
         }
         console.log(areaObj)
-        // api.postArea()
+        API.createAreaInCity(areaObj);
         this.setState({
             areaCoords: [],
             area: '',
+            details: '',
             image: ''
         })
     }

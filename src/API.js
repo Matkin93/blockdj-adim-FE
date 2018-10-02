@@ -24,4 +24,9 @@ export const updateCityById = (cityId, data) => axios.put(`${DB_URL}/cities/${ci
 
 export const getAreasByCityId = (cityId) => axios.get(`${DB_URL}/cities/${cityId}/areas`)
 
-export const createAreaInCity = (cityId) => axios.post(`${DB_URL}/cities/${cityId}/areas`)
+export const createAreaInCity = (cityId) => axios.post(`${DB_URL}/cities/${cityId}/areas`).catch(error => {
+    console.log('erroring out from createArea');
+    let errorObj = JSON.stringify(error);
+    errorObj = JSON.parse(errorObj);
+    throw errorObj.response;
+})
