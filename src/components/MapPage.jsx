@@ -89,7 +89,7 @@ export default class MapPage extends Component {
                 <div>
                     <form className="map-form" onSubmit={(e) => { this.submitArea(e) }}>
                         <select>
-                            <option selected value="Manchester">Manchester</option>
+                            <option default value="Manchester">Manchester</option>
                         </select>
                         <input className="area-name" onChange={this.handleArea} placeholder="areaName"></input>
                         <input className="image-url" onChange={this.handleImage} placeholder="image Url"></input>
@@ -103,7 +103,7 @@ export default class MapPage extends Component {
 
     submitArea = (e) => {
         e.preventDefault();
-        if (!this.state.areaCoords.lenght > 0) {
+        if (!this.state.areaCoords.length > 0) {
 
         }
         else {
@@ -116,6 +116,8 @@ export default class MapPage extends Component {
                     "coordinates": this.state.areaCoords
                 }
             }
+            // console.log(this.state);
+            console.log(areaObj);
             API.createAreaInCity(areaObj);
             this.setState({
                 areaCoords: [],

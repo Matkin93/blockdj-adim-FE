@@ -30,6 +30,7 @@ class App extends Component {
         }} />
         <Route exact path="/areas" render={(props) => (
           <Layout logout={azs.logout} title="Areas" description="Cities and areas covered by this website">
+            <Areas />
           </Layout>
         )}
         />
