@@ -2,7 +2,14 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
-    width: 50%;
+    width: 40%;
+}
+
+.area-add-div {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
 }
 
 .areas-div {
@@ -13,3 +20,23 @@
     width: 90%;
     margin: 0 auto;
 }
+
+.map-div {
+    /* display: inline-flex; */
+    /* float: right;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    width: 1000px;
+    height: 500px;
+    background-color: red;
+    border: 1px solid yellow; */
+}
+
+/* .map-form {
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    border: 1px solid green;
+} */

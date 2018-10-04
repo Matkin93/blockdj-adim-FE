@@ -4,22 +4,35 @@ import AreaList from './List/index'
 
 class Areas extends Component {
     state = {
-        areas: []
+        areas: [],
+        city: ''
     }
     render() {
         return (
             <div>
-                <AreaList id={this.props.match.params.id} areas={this.state.areas} />
+                <AreaList id={this.props.match.params.id} city={this.state.city} areas={this.state.areas} />
             </div>
         );
     }
 
     componentDidMount() {
-        this.getAreas(this.props.match.params.id);
+        const id = this.props.match.params.id
+        this.getCity(id);
+        this.getAreas(id);
+    }
+
+
+
+    getCity = async (id) => {
+        const res = await API.getCity(id);
+        const cityName = res.data.city.name;
+        this.setState({
+            city: cityName
+        });
     }
 
     getAreas = async (id) => {
-        const res = await API.getCityAreas(this.props.match.params.id);
+        const res = await API.getCityAreas(id);
         const areas = res.data;
         this.setState({
             areas: [...this.state.areas, areas]

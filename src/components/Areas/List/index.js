@@ -16,23 +16,23 @@ class AreaList extends Component {
 
     }
     render() {
-        console.log(this.props);
         // Accessing individual areas for the city
         const { areas, id } = this.props;
-        console.log(areas)
         const areasObj = areas[0];
         let areasArr = [];
         if (areasObj) Object.keys(areasObj).forEach(key => areasArr.push(key, areasObj[key]));
         areasArr = areasArr[1];
         return (
             <div>
-                <form className="new-area-form">
-                    <input id="name" onChange={this.changeValue} value={this.state.name} placeholder="area name"></input>
-                    <input id="image_url" onChange={this.changeValue} value={this.state.image_url} placeholder="image url"></input>
-                    <input id="color" onChange={this.changeValue} value={this.state.color} placeholder="color"></input>
-                    <Button onClick={() => this.submitArea(id)}>Add Area</Button>
-                </form>
-                <MapPage func={this.getNewCoords} />
+                <div className="area-add-div">
+                    <form className="new-area-form">
+                        <input id="name" onChange={this.changeValue} value={this.state.name} placeholder="area name"></input>
+                        <input id="image_url" onChange={this.changeValue} value={this.state.image_url} placeholder="image url"></input>
+                        <input id="color" onChange={this.changeValue} value={this.state.color} placeholder="color"></input>
+                        <Button onClick={() => this.submitArea(id)}>Add Area</Button>
+                    </form>
+                    <MapPage className="map-div" cityId={id} areas={areasArr} func={this.getNewCoords} />
+                </div>
                 <Table className="areas-table" bordered striped>
                     <thead>
                         <tr>
@@ -47,7 +47,7 @@ class AreaList extends Component {
                             areasArr.map(area => {
                                 return (
                                     <tr key={area._id}>
-                                        <td>{area.city}</td>
+                                        <td>{this.props.city}</td>
                                         <td>{area.name}</td>
                                         <td>{area.colour}</td>
                                     </tr>

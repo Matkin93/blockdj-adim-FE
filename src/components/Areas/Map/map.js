@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import L from 'leaflet';
 import EditControl from '../../Leaflet/EditControl';
-//import * as API from '../API';
+import * as API from '../../../utils/api';
 import './map.css';
 
 export default class MapPage extends Component {
     state = {
         areaCoords: []
-        //     area: '',
-        //     details: '',
-        //     image: '',
-        //     city: 'Manchester'
     }
 
     _onCreated = (e) => {
@@ -33,7 +29,6 @@ export default class MapPage extends Component {
             });
             this.submitArea()
         }
-        // Do whatever else you need to. (save to db; etc)
         this._onChange();
 
     }
@@ -64,7 +59,7 @@ export default class MapPage extends Component {
     render() {
         return (
             <div>
-                <Map className="map-div" center={[53.4808, -2.2426]} zoom={13} zoomControl={false}>
+                <Map className="map" center={[53.4808, -2.2426]} zoom={13} zoomControl={false}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
@@ -94,22 +89,9 @@ export default class MapPage extends Component {
         if (!this.state.areaCoords.length > 0) {
         }
         else {
-            console.log(this.state.areaCoords);
             this.props.func(this.state.areaCoords);
-            const areaObj = {
-                // "name": this.state.area,
-                // "details": this.state.details,
-                // "image_url": this.state.image,
-                "bounds": {
-                    "type": "Polygon",
-                    "coordinates": this.state.areaCoords
-                }
-            }
             this.setState({
                 areaCoords: []
-                //     area: '',
-                //     details: '',
-                //     image: ''
             })
 
         }
