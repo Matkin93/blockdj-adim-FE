@@ -4,8 +4,10 @@ import { Table, Button } from 'reactstrap';
 class AreaList extends Component {
     render() {
         const { areas } = this.props;
-        console.log(this.props);
-        console.log(areas);
+        const areasObj = areas[0];
+        let areasArr = [];
+        if (areasObj) Object.keys(areasObj).forEach(key => areasArr.push(key, areasObj[key]));
+        areasArr = areasArr[1];
         return (
             <Table bordered striped>
                 <thead>
@@ -17,18 +19,18 @@ class AreaList extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {areas && (
-                        areas.map(area => {
+                    {areasArr && (
+                        areasArr.map(area => {
                             return (
                                 <tr key={area._id}>
+                                    <td></td>
                                     <td>{area.name}</td>
                                     <td>{area.colour}</td>
-                                    <td></td>
                                 </tr>
                             )
                         })
                     )}
-                    {areas.length === 0 && (
+                    {areasArr && areasArr.length === 0 && (
                         <tr>
                             <td colSpan="3">No areas currently added</td>
                         </tr>
