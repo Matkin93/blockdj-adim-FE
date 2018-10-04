@@ -5,6 +5,18 @@ const API_URL = 'http://localhost:9090/api';
 
 axios.defaults.headers.common['Authorization'] = `Bearer ${getAccessToken()}`
 
-export const getCompanies = () => {
-    return axios.get(`${API_URL}/companies`);
+export const getCities = () => {
+    return axios.get(`${API_URL}/cities`);
+}
+
+export const addCity = (data) => {
+    return axios.post(`${API_URL}/cities`, data);
+}
+
+export const getCity = (id) => {
+    return axios.get(`${API_URL}/cities/${id}`);
+}
+
+export const getCityAreas = (id) => {
+    return axios.get(`${API_URL}/cities/${id}/areas`);
 }

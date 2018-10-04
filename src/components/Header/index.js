@@ -11,7 +11,7 @@ class Header extends Component {
         });
     }      
     render() {
-        const {logout, title, description} = this.props;
+        const {logout, title} = this.props;
         return (
             <Fragment>
                 <Navbar color="dark" dark expand="md">
@@ -24,7 +24,7 @@ class Header extends Component {
                                     <NavLink href="/">Home</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink href="/areas">Areas</NavLink>
+                                    <NavLink href="/cities">Cities</NavLink>
                                 </NavItem>  
                                 <NavItem>
                                     <Button color="primary" size="sm" className="mt-1 ml-2" onClick={logout}>Logout</Button>
@@ -35,8 +35,7 @@ class Header extends Component {
                 </Navbar> 
                 <Jumbotron fluid>
                     <Container>
-                        <h1 className="display-5    ">{title}</h1>
-                        <p className="lead">{description}</p>
+                        <h1 className="display-5">{title}</h1>
                     </Container>
                 </Jumbotron>
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Map, TileLayer, Circle, FeatureGroup } from 'react-leaflet';
+import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import L from 'leaflet';
-import EditControl from '../leaflet/EditControl';
-import * as API from '../API';
+import EditControl from './Leaflet/EditControl';
+//import * as API from '../API';
 import './map.css';
 
 export default class MapPage extends Component {
@@ -118,7 +118,7 @@ export default class MapPage extends Component {
             }
             // console.log(this.state);
             console.log(areaObj);
-            API.createAreaInCity(areaObj);
+            //API.createAreaInCity(areaObj);
             this.setState({
                 areaCoords: [],
                 area: '',

@@ -6,7 +6,9 @@ import Callback from '../Callback';
 import Unauthorised from '../Unauthorised';
 import Areas from '../Areas';
 import Layout from '../Layout';
-import MapPage from '../MapPage';
+// import MapPage from '../MapPage';
+import Cities from '../Cities';
+import Home from '../Home';
 
 class App extends Component {
   render() {
@@ -15,26 +17,31 @@ class App extends Component {
       <Switch>
         <Route exact path="/" render={(props) => (
           <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
-            <Layout logout={azs.logout} title="Home" description="Something, Something, Dark Side">
-              <div className="container">
-                <p>I am logged in</p>
-              </div>
+            <Layout logout={azs.logout} title="Home">
+              <Home/>
             </Layout>
           </Auth>)}
         />
+        <Route exact path="/cities" render={(props) => (
+          <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
+            <Layout logout={azs.logout} title="Cities" >
+              <Cities {...props}/>
+            </Layout>
+          </Auth>)}
+        />
+        <Route exact path="/areas/:id" render={(props) => (
+          <Layout logout={azs.logout} title="Areas">
+            <Areas {...props} />
+          </Layout>
+        )}
+        />        
         <Route exact path="/callback" render={(props) => {
           return <Callback {...props} handleAuthentication={azs.handleAuthentication} />
         }} />
         <Route exact path="/unauthorised" render={(props) => {
           return <Unauthorised {...props} logout={azs.logout} />
         }} />
-        <Route exact path="/areas" render={(props) => (
-          <Layout logout={azs.logout} title="Areas" description="Cities and areas covered by this website">
-            <Areas />
-          </Layout>
-        )}
-        />
-        <Route exact path="/map" component={MapPage} />
+        {/* <Route exact path="/map" component={MapPage} /> */}
       </Switch>
     )
   }
