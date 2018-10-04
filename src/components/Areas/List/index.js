@@ -1,24 +1,39 @@
 import React, { Component, Fragment } from 'react';
 import { Table, Button } from 'reactstrap';
+import MapPage from '../Map/map';
 import areas from '../areas.css';
+import * as API from '../../../utils/api.js';
 
 class AreaList extends Component {
+    state = {
+        name: '',
+        image_url: '',
+        color: '',
+        bounds: {
+            type: 'polygon',
+            coordinates: []
+        }
+
+    }
     render() {
+        console.log(this.props);
         // Accessing individual areas for the city
-        const { areas } = this.props;
+        const { areas, id } = this.props;
+        console.log(areas)
         const areasObj = areas[0];
         let areasArr = [];
         if (areasObj) Object.keys(areasObj).forEach(key => areasArr.push(key, areasObj[key]));
         areasArr = areasArr[1];
         return (
-            <Fragment>
+            <div>
                 <form className="new-area-form">
-                    <input></input>
-                    <input></input>
-                    <input></input>
-                    <Button>Add Area</Button>
+                    <input id="name" onChange={this.changeValue} value={this.state.name} placeholder="area name"></input>
+                    <input id="image_url" onChange={this.changeValue} value={this.state.image_url} placeholder="image url"></input>
+                    <input id="color" onChange={this.changeValue} value={this.state.color} placeholder="color"></input>
+                    <Button onClick={() => this.submitArea(id)}>Add Area</Button>
                 </form>
-                <Table bordered striped>
+                <MapPage func={this.getNewCoords} />
+                <Table className="areas-table" bordered striped>
                     <thead>
                         <tr>
                             <th>City</th>
@@ -46,8 +61,30 @@ class AreaList extends Component {
                         )}
                     </tbody>
                 </Table>
-            </Fragment >
+            </div >
         );
+    }
+
+    changeValue = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
+
+    getNewCoords = (coords) => {
+        this.setState({
+            newArea: {
+                ...this.state.newArea,
+                bounds: {
+                    type: 'polygon',
+                    coordinates: coords
+                }
+            }
+        })
+    }
+
+    submitArea = (id) => {
+        API.addArea(id, this.state)
     }
 }
 

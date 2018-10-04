@@ -28,10 +28,8 @@ class EditControl extends LayersControl {
         onCreated: PropTypes.func,
         onMounted: PropTypes.func,
         draw: PropTypes.shape({
-            polyline: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
             polygon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
             rectangle: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-            circle: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
             marker: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
         }),
         edit: PropTypes.shape({

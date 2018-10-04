@@ -9,7 +9,7 @@ class Areas extends Component {
     render() {
         return (
             <div>
-                <AreaList areas={this.state.areas} />
+                <AreaList id={this.props.match.params.id} areas={this.state.areas} />
             </div>
         );
     }

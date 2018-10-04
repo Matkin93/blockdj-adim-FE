@@ -1,8 +1,10 @@
 .map-div {
+    display: inline-flex;
+    float: right;
     margin: auto;
     margin-top: 50px;
     margin-bottom: 20px;
-    width: 500px;
+    max-width: 500px;
     height: 500px;
 }
 
