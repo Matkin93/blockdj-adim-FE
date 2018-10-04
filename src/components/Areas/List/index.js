@@ -21,11 +21,13 @@ class AreaList extends Component {
     }
     render() {
         // Accessing individual areas for the city
+        console.log(this.props);
         const { areas, id } = this.props;
         const areasObj = areas[0];
         let areasArr = [];
         if (areasObj) Object.keys(areasObj).forEach(key => areasArr.push(key, areasObj[key]));
         areasArr = areasArr[1];
+        console.log(areasArr);
         return (
             <div>
                 <div className="area-add-div">
@@ -38,34 +40,36 @@ class AreaList extends Component {
                     </form>
                     <MapPage className="map-div" cityId={id} areas={areasArr} func={this.getNewCoords} />
                 </div>
-                <Table className="areas-table" bordered striped>
-                    <thead>
-                        <tr>
-                            <th>City</th>
-                            <th>Name</th>
-                            <th>Colour</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {areasArr && (
-                            areasArr.map(area => {
-                                return (
-                                    <tr key={area._id}>
-                                        <td>{this.props.city}</td>
-                                        <td>{area.name}</td>
-                                        <td>{area.colour}</td>
-                                    </tr>
-                                )
-                            })
-                        )}
-                        {areasArr && areasArr.length === 0 && (
+                {this.props.city !== '' ? (
+                    <Table className="areas-table" bordered striped>
+                        <thead>
                             <tr>
-                                <td colSpan="3">No areas currently added</td>
+                                <th>City</th>
+                                <th>Name</th>
+                                <th>Colour</th>
+                                {/* <th></th> */}
                             </tr>
-                        )}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {areasArr && (
+                                areasArr.map(area => {
+                                    return (
+                                        <tr key={area._id}>
+                                            <td>{this.props.city}</td>
+                                            <td>{area.name}</td>
+                                            <td>{area.colour}</td>
+                                        </tr>
+                                    )
+                                })
+                            )}
+                            {areasArr && areasArr.length === 0 && (
+                                <tr>
+                                    <td colSpan="3">No areas currently added</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </Table>
+                ) : null}
             </div >
         );
     }

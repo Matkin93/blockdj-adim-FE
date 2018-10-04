@@ -25,10 +25,12 @@ class Areas extends Component {
 
     getCity = async (id) => {
         const res = await API.getCity(id);
-        const cityName = res.data.city.name;
-        this.setState({
-            city: cityName
-        });
+        if (res.data.city) {
+            const cityName = res.data.city.name;
+            this.setState({
+                city: cityName
+            });
+        }
     }
 
     getAreas = async (id) => {
