@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'reactstrap';
+import * as API from '../../../utils/api.js';
 
 class CityList extends Component {
     render() {
-        const {cities} = this.props;
+        const { cities } = this.props;
         return (
             <Table bordered striped>
                 <thead>
                     <tr>
-                        <th style={{width:'90%'}}>Name</th>
+                        <th style={{ width: '90%' }}>Name</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -35,8 +36,9 @@ class CityList extends Component {
         );
     }
     goToArea = (id) => {
-        const {history} = this.props;
+        const { history } = this.props;
         history.push(`/areas/${id}`);
+        const areas = API.getCityAreas(id);
     }
 }
 

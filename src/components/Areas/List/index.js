@@ -3,7 +3,9 @@ import { Table, Button } from 'reactstrap';
 
 class AreaList extends Component {
     render() {
-        const {areas} = this.props;
+        const { areas } = this.props;
+        console.log(this.props);
+        console.log(areas);
         return (
             <Table bordered striped>
                 <thead>
@@ -13,10 +15,10 @@ class AreaList extends Component {
                         <th>Colour</th>
                         <th></th>
                     </tr>
-                </thead> 
+                </thead>
                 <tbody>
                     {areas && (
-                        aress.map(area => {
+                        areas.map(area => {
                             return (
                                 <tr key={area._id}>
                                     <td>{area.name}</td>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {getAccessToken} from '../utils/common';
+import { getAccessToken } from '../utils/common';
 
 const API_URL = 'http://localhost:9090/api';
 
@@ -17,6 +17,6 @@ export const getCity = (id) => {
     return axios.get(`${API_URL}/cities/${id}`);
 }
 
-export const getCityAreas = (id) => {
+export const getCityAreas = async (id) => {
     return axios.get(`${API_URL}/cities/${id}/areas`);
 }
