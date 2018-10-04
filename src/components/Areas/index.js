@@ -7,7 +7,6 @@ class Areas extends Component {
         areas: []
     }
     render() {
-        // console.log(this.props);
         return (
             <div>
                 <AreaList areas={this.state.areas} />
