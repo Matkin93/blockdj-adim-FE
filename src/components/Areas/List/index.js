@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Table, Button } from 'reactstrap';
+import { Table, Button, Alert } from 'reactstrap';
 import MapPage from '../Map/map';
 import areas from '../areas.css';
 import * as API from '../../../utils/api.js';
@@ -12,8 +12,12 @@ class AreaList extends Component {
         bounds: {
             type: 'polygon',
             coordinates: []
+        },
+        flashMessage: {
+            visible: false,
+            text: '',
+            className: ''
         }
-
     }
     render() {
         // Accessing individual areas for the city
@@ -29,7 +33,8 @@ class AreaList extends Component {
                         <input id="name" onChange={this.changeValue} value={this.state.name} placeholder="area name"></input>
                         <input id="image_url" onChange={this.changeValue} value={this.state.image_url} placeholder="image url"></input>
                         <input id="color" onChange={this.changeValue} value={this.state.color} placeholder="color"></input>
-                        <Button onClick={() => this.submitArea(id)}>Add Area</Button>
+                        <Button className="area-submit" onClick={() => this.submitArea(id)}>Add Area</Button>
+                        {this.state.flashMessage.visible ? <Alert color={this.state.flashMessage.className}>{this.state.flashMessage.text}</Alert> : null}
                     </form>
                     <MapPage className="map-div" cityId={id} areas={areasArr} func={this.getNewCoords} />
                 </div>
@@ -84,7 +89,50 @@ class AreaList extends Component {
     }
 
     submitArea = (id) => {
-        API.addArea(id, this.state)
+        const name = this.state.name;
+        const image_url = this.state.image_url;
+        const color = this.state.color;
+        const bounds = this.state.bounds;
+        const areaObj = {
+            name: name,
+            image_url: image_url,
+            color: color,
+            bounds: bounds
+        }
+        API.addArea(id, areaObj)
+            .then(res => {
+                this.setState({
+                    flashMessage: {
+                        visible: true,
+                        // text: err.data,
+                        className: 'success'
+                    }
+                })
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({
+                    flashMessage: {
+                        visible: true,
+                        // text: err,
+                        className: 'danger'
+                    }
+                })
+            })
+    }
+
+    componentDidUpdate() {
+        //resetting flash messages
+        if (this.state.flashMessage.visible) {
+            setTimeout(() => {
+                console.log('GO!')
+                this.setState({
+                    flashMessage: {
+                        visible: false
+                    }
+                })
+            }, 2000)
+        }
     }
 }
 

@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
-    width: 40%;
+    width: 45%;
 }
 
 .area-add-div {
@@ -21,22 +21,6 @@
     margin: 0 auto;
 }
 
-.map-div {
-    /* display: inline-flex; */
-    /* float: right;
-    margin: auto;
-    margin-top: 50px;
-    margin-bottom: 20px;
-    width: 1000px;
-    height: 500px;
-    background-color: red;
-    border: 1px solid yellow; */
+.area-submit {
+    margin-bottom: 10px;
 }
-
-/* .map-form {
-    width: 1000px;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    border: 1px solid green;
-} */

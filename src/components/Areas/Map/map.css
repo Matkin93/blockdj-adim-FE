@@ -6,3 +6,18 @@
     padding: 200px;
     margin-bottom: 25px;
 }
+
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circle, 
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline, 
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-marker
+.leaflet-draw-draw-circlemarker {
+    display: none;
+}
+
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-marker {
+    display: none;
+}
+
+.leaflet-draw-draw-polyline {
+    display: none;
+}
