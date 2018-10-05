@@ -89,11 +89,10 @@ export default class MapPage extends Component {
         if (!this.state.areaCoords.length > 0) {
         }
         else {
-            this.props.func(this.state.areaCoords);
+            this.props.func(this.state.areaCoords)
             this.setState({
                 areaCoords: []
             })
-
         }
     }
 
