@@ -1,8 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Table, Button, Alert } from 'reactstrap';
 import MapPage from '../Map/map';
 import areas from '../areas.css';
+import { Link, } from 'react-router-dom';
 import * as API from '../../../utils/api.js';
+import CityAreas from './CityAreas';
 
 class AreaList extends Component {
     state = {
@@ -20,12 +22,9 @@ class AreaList extends Component {
         }
     }
     render() {
+        console.log(this.props.city)
         // Accessing individual areas for the city
         const { areas, id } = this.props;
-        const areasObj = areas[0];
-        let areasArr = [];
-        if (areasObj) Object.keys(areasObj).forEach(key => areasArr.push(key, areasObj[key]));
-        areasArr = areasArr[1];
         return (
             <div>
                 <div className="area-add-div">
@@ -38,42 +37,47 @@ class AreaList extends Component {
                         {this.state.flashMessage.visible ? <Alert color={this.state.flashMessage.className}>{this.state.flashMessage.text}</Alert> : null}
 
                     </form>
-                    <MapPage className="map-div" cityId={id} areas={areasArr} func={this.getNewCoords} />
+                    <MapPage className="map-div" cityId={id} city={this.props.city} areas={areas} func={this.getNewCoords} />
                 </div>
                 {
                     this.props.city !== '' ? (
-                        <Table className="areas-table" bordered striped>
-                            <thead>
-                                <tr>
-                                    <th>City</th>
-                                    <th>Name</th>
-                                    <th>Colour</th>
-                                    {/* <th></th> */}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {areasArr && (
-                                    areasArr.map(area => {
-                                        return (
-                                            <tr key={area._id}>
-                                                <td>{this.props.city}</td>
-                                                <td>{area.name}</td>
-                                                <td>{area.colour}</td>
-                                            </tr>
-                                        )
-                                    })
-                                )}
-                                {areasArr && areasArr.length === 0 && (
-                                    <tr>
-                                        <td colSpan="3">No areas currently added</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </Table>
-                    ) : null
+                        <CityAreas areas={areas} id={id} city={this.props.city} />
+                        // <Table className="areas-table" bordered striped>
+                        //     <thead>
+                        //         <tr>
+                        //             <th>City</th>
+                        //             <th>Name</th>
+                        //             <th>Colour</th>
+                        //             {/* <th></th> */}
+                        //         </tr>
+                        //     </thead>
+                        //     <tbody>
+                        //         {areasArr && (
+                        //             areasArr.map(area => {
+                        //                 return (
+                        //                     <tr key={area._id}>
+                        //                         <td>{this.props.city}</td>
+                        //                         <td><Link to={`/areas/${area._id}`}>{area.name}</Link></td>
+                        //                         <td>{area.colour}</td>
+                        //                     </tr>
+                        //                 )
+                        //             })
+                        //         )}
+                        //         {areasArr && areasArr.length === 0 && (
+                        //             <tr>
+                        //                 <td colSpan="3">No areas currently added</td>
+                        //             </tr>
+                        //         )}
+                        //     </tbody>
+                        // </Table>
+                    ) : console.log('Show something else now')
                 }
             </div >
         );
+    }
+
+
+    componentDidMount() {
     }
 
     changeValue = (e) => {
@@ -102,28 +106,45 @@ class AreaList extends Component {
             colour: colour,
             bounds: bounds
         }
-        console.log('>>>>>>>>>>>>>>>>THIS IS WHAT IS BEING POSTED TO ' + id, areaObj)
-        API.addArea(id, areaObj)
-            .then(res => {
-                console.log(res)
-                this.setState({
+        {
+            this.state.bounds.coordinates.length > 0 ?
+                API.addArea(id, areaObj)
+                    .then(res => {
+                        console.log(res)
+                        this.setState({
+                            name: '',
+                            image_url: '',
+                            colour: '',
+                            bounds: {
+                                type: 'Polygon',
+                                coordinates: []
+                            },
+                            flashMessage: {
+                                visible: true,
+                                text: (areaObj.name + ' added successfully'),
+                                className: 'success'
+                            }
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.setState({
+                            flashMessage: {
+                                visible: true,
+                                // text: err,
+                                className: 'danger'
+                            }
+                        })
+                    })
+                : this.setState({
                     flashMessage: {
                         visible: true,
-                        // text: err.data,
-                        className: 'success'
-                    }
-                })
-            })
-            .catch(err => {
-                console.log(err);
-                this.setState({
-                    flashMessage: {
-                        visible: true,
-                        // text: err,
+                        text: 'Please add area co-ordinates using the map',
                         className: 'danger'
                     }
                 })
-            })
+        }
+        API.getCityAreas(id);
     }
 
     componentDidUpdate() {

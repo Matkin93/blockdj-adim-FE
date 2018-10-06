@@ -18,14 +18,14 @@ class App extends Component {
         <Route exact path="/" render={(props) => (
           <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
             <Layout logout={azs.logout} title="Home">
-              <Home/>
+              <Home />
             </Layout>
           </Auth>)}
         />
         <Route exact path="/cities" render={(props) => (
           <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
             <Layout logout={azs.logout} title="Cities" >
-              <Cities {...props}/>
+              <Cities {...props} />
             </Layout>
           </Auth>)}
         />
@@ -34,7 +34,7 @@ class App extends Component {
             <Areas {...props} />
           </Layout>
         )}
-        />        
+        />
         <Route exact path="/callback" render={(props) => {
           return <Callback {...props} handleAuthentication={azs.handleAuthentication} />
         }} />

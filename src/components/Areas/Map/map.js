@@ -57,9 +57,23 @@ export default class MapPage extends Component {
     }
 
     render() {
+        const city = this.props.city;
+        const cityCoords = {
+            'Leeds': [53.8008, -1.5491],
+            'York': [53.9600, -1.0873],
+            'Manchester': [53.4808, -2.2426],
+            'Liverpool': [53.4084, -2.9916],
+            'Edinburgh': [55.9533, -3.1883],
+            'London': [51.5074, -0.1278],
+            'Birmingham': [52.4862, -1.8904],
+            'Bristol': [51.4545, 2.5879],
+            'Sheffield': [53.3811, 1.4701]
+        }
         return (
             <div>
-                <Map className="map" center={[53.4808, -2.2426]} zoom={13} zoomControl={false}>
+                <Map className="map" center={cityCoords[city]} zoom={13} zoomControl={false}>
+                    {/* [-122.4806928634643, 37.800637436707525]
+                                [53.4808, -2.2426] */}
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
@@ -151,6 +165,7 @@ function getGeoJson() {
             {
                 "type": "Feature",
                 "properties": {},
+                "style": { 'backgroundColor': 'red' },
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [
