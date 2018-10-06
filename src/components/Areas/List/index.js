@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, Alert } from 'reactstrap';
 import MapPage from '../Map/map';
 import areas from '../areas.css';
-import { Link, } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as API from '../../../utils/api.js';
 import CityAreas from './CityAreas';
 
@@ -22,9 +22,11 @@ class AreaList extends Component {
         }
     }
     render() {
-        console.log(this.props.city)
         // Accessing individual areas for the city
         const { areas, id } = this.props;
+        console.log(this.props.areas);
+        console.log(typeof areas);
+        // if (areasObj) Object.keys(areasObj).forEach(key => areaArr.push(key, areasObj[key]));
         return (
             <div>
                 <div className="area-add-div">

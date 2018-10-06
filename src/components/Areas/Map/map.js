@@ -69,11 +69,12 @@ export default class MapPage extends Component {
             'Bristol': [51.4545, 2.5879],
             'Sheffield': [53.3811, 1.4701]
         }
+        const { areas } = this.props.areas;
+        if (areas) console.log(this.props.areas[0].areas);
+        // console.log(Array.isArray(areas.areas));
         return (
             <div>
                 <Map className="map" center={cityCoords[city]} zoom={13} zoomControl={false}>
-                    {/* [-122.4806928634643, 37.800637436707525]
-                                [53.4808, -2.2426] */}
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
