@@ -24,7 +24,6 @@ class AreaList extends Component {
     render() {
         // Accessing individual areas for the city
         const { areas, id } = this.props;
-
         return (
             <div>
                 <div className="area-add-div">

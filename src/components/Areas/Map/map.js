@@ -7,7 +7,8 @@ import './map.css';
 
 export default class MapPage extends Component {
     state = {
-        areaCoords: []
+        areaCoords: [],
+        city: ''
     }
 
     _onCreated = (e) => {
@@ -59,6 +60,7 @@ export default class MapPage extends Component {
     render() {
         const { areas } = this.props;
         const areasObj = areas[0];
+        let area = {};
         let city = this.props.city;
         let areasArr = [];
         if (areasObj) Object.keys(areasObj).forEach(key => areasArr.push(key, areasObj[key]));
@@ -69,11 +71,18 @@ export default class MapPage extends Component {
             getGeoJson(areasArr);
         }
         if ((city === '') && (Array.isArray(areasArr))) {
-            console.log(this.props);
-            if (areasArr.length > 0) {
-                console.log(areasArr[0]);
-            }
+            API.getArea(this.props.cityId)
+                .then(res => {
+                    let cityId = res.data.area.city
+                    API.getCity(cityId)
+                        .then(res => {
+                            this.setState({
+                                city: res.data.city.name
+                            })
+                        })
+                })
         }
+
         const cityCoords = {
             'Leeds': [53.8008, -1.5491],
             'York': [53.9600, -1.0873],
@@ -88,7 +97,7 @@ export default class MapPage extends Component {
 
         return (
             <div>
-                <Map className="map" center={cityCoords[city]} zoom={13} zoomControl={false}>
+                <Map className="map" center={city !== '' ? cityCoords[city] : cityCoords[this.state.city]} zoom={13} zoomControl={false}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
