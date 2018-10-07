@@ -8,16 +8,8 @@ const CityAreas = (props) => {
     let areasArr = [];
     if (areasObj) Object.keys(areasObj).forEach(key => areasArr.push(key, areasObj[key]));
     areasArr;
-    console.log(areasArr);
     areasArr.shift();
-
     areasArr = areasArr[0]
-
-    // if (areasArr) {
-    //     areasArr.forEach(area => {
-    //         console.log(area._id);
-    //     })
-    // }
     return (
         <Table className="areas-table" bordered striped>
             <thead>
@@ -34,13 +26,13 @@ const CityAreas = (props) => {
                         return (
                             <tr key={area._id}>
                                 <td>{city}</td>
-                                <td><Link to={`/areas/${area._id}`}>{area.name}</Link></td>
+                                <td><Link to={{ pathname: `/areas/${area._id}`, state: { name: area.name } }}>{area.name}</Link></td>
                                 <td>{area.colour}</td>
                             </tr>
                         )
                     })
                 )}
-                {areas && areasArr && (
+                {areas && areasArr && areasArr.length === 0 && (
                     <tr>
                         <td colSpan="3">No areas currently added</td>
                     </tr>

@@ -29,6 +29,13 @@ class App extends Component {
             </Layout>
           </Auth>)}
         />
+        <Route exact path="/cities/:id" render={(props) => (
+          <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
+            <Layout logout={azs.logout} title="City" >
+              <Areas {...props} />
+            </Layout>
+          </Auth>)}
+        />
         <Route exact path="/areas/:id" render={(props) => (
           <Layout logout={azs.logout} title="Areas">
             <Areas {...props} />

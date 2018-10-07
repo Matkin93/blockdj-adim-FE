@@ -37,7 +37,7 @@ class CityList extends Component {
     }
     goToArea = (id) => {
         const { history } = this.props;
-        history.push(`/areas/${id}`);
+        history.push(`/cities/${id}`);
     }
 }
 

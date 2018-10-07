@@ -1,4 +1,4 @@
-.new-area-form {
+.new-area-form, .edit-area-form {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;

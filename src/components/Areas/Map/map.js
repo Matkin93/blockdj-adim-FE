@@ -57,7 +57,23 @@ export default class MapPage extends Component {
     }
 
     render() {
-        const city = this.props.city;
+        const { areas } = this.props;
+        const areasObj = areas[0];
+        let city = this.props.city;
+        let areasArr = [];
+        if (areasObj) Object.keys(areasObj).forEach(key => areasArr.push(key, areasObj[key]));
+        areasArr;
+        areasArr.shift();
+        areasArr = areasArr[0]
+        if (Array.isArray(areasArr)) {
+            getGeoJson(areasArr);
+        }
+        if ((city === '') && (Array.isArray(areasArr))) {
+            console.log(this.props);
+            if (areasArr.length > 0) {
+                console.log(areasArr[0]);
+            }
+        }
         const cityCoords = {
             'Leeds': [53.8008, -1.5491],
             'York': [53.9600, -1.0873],
@@ -69,9 +85,7 @@ export default class MapPage extends Component {
             'Bristol': [51.4545, 2.5879],
             'Sheffield': [53.3811, 1.4701]
         }
-        const { areas } = this.props.areas;
-        if (areas) console.log(this.props.areas[0].areas);
-        // console.log(Array.isArray(areas.areas));
+
         return (
             <div>
                 <Map className="map" center={cityCoords[city]} zoom={13} zoomControl={false}>
@@ -128,10 +142,19 @@ export default class MapPage extends Component {
     _editableFG = null
 
     _onFeatureGroupReady = (reactFGref) => {
+        const { areas } = this.props;
+        const areasObj = areas[0];
+        let areasArr = [];
+        if (areasObj) Object.keys(areasObj).forEach(key => areasArr.push(key, areasObj[key]));
+        areasArr;
+        areasArr.shift();
+        areasArr = areasArr[0]
+        if (Array.isArray(areasArr)) {
+            new L.GeoJSON(getGeoJson(areasArr));
+        }
 
         // populate the leaflet FeatureGroup with the geoJson layers
-
-        let leafletGeoJSON = new L.GeoJSON(getGeoJson());
+        let leafletGeoJSON = new L.GeoJSON(getGeoJson(areasArr));
         // let leafletFG = reactFGref.leafletElement;
 
         leafletGeoJSON.eachLayer((layer) => {
@@ -159,42 +182,24 @@ export default class MapPage extends Component {
 
 }
 
-function getGeoJson() {
-    return {
-        "type": "FeatureCollection",
-        "features": [
-            {
-                "type": "Feature",
-                "properties": {},
-                "style": { 'backgroundColor': 'red' },
-                "geometry": {
-                    "type": "Polygon",
-                    "coordinates": [
-                        [
-                            [
-                                -122.48069286346434,
-                                37.800637436707525
-                            ],
-                            [
-                                -122.48069286346434,
-                                37.803104310307276
-                            ],
-                            [
-                                -122.47950196266174,
-                                37.803104310307276
-                            ],
-                            [
-                                -122.47950196266174,
-                                37.800637436707525
-                            ],
-                            [
-                                -122.48069286346434,
-                                37.800637436707525
+function getGeoJson(arr) {
+    if (Array.isArray(arr)) {
+        return {
+            "type": "FeatureCollection",
+            "features": [
+                arr.map(area => {
+                    return {
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "type": "Polygon",
+                            "coordinates": [
+                                area.bounds.coordinates
                             ]
-                        ]
-                    ]
-                }
-            }
-        ]
+                        }
+                    }
+                })
+            ]
+        }
     }
 }

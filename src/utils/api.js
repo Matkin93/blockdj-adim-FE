@@ -21,6 +21,14 @@ export const getCityAreas = async (id) => {
     return axios.get(`${API_URL}/cities/${id}/areas`);
 }
 
+export const getArea = async (id) => {
+    return axios.get(`${API_URL}/areas/${id}`);
+}
+
 export const addArea = (id, data) => {
     return axios.post(`${API_URL}/cities/${id}/areas`, data);
+}
+
+export const updateArea = (id, data) => {
+    return axios.put(`${API_URL}/areas/${id}`, data)
 }
