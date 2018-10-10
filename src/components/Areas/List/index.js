@@ -26,6 +26,7 @@ class AreaList extends Component {
         // Accessing individual areas for the city
         const { id } = this.props;
         const { areas } = this.state;
+        console.log(areas,'AREAS IN STATE')
         return (
             <div>
                 <div className="area-add-div">
@@ -64,13 +65,11 @@ class AreaList extends Component {
         this.getAreas(this.props.id);
         let area = {}
         const id = this.props.id;
-        console.log(this.props.city);
         if (this.props.city === '') {
             API.getArea(id)
                 .then(res => {
                     if (res.data.area) {
                         area = res.data.area;
-                        console.log(res.data.area);
                         this.setState({
                             name: area.name,
                             image_url: area.image_url,
@@ -85,7 +84,7 @@ class AreaList extends Component {
         const res = await API.getCityAreas(id);
         const { areas } = res.data;
         this.setState({
-            areas: [...this.state.areas, areas]
+            areas
         })
     }
 
@@ -122,9 +121,10 @@ class AreaList extends Component {
             this.state.bounds.coordinates.length > 0 ?
                 API.addArea(id, areaObj)
                     .then(res => {
+                        const { area } = res.data
                         console.log(res.data.area)
                         this.setState({
-                            areas: [this.state.areas.concat(res.data.area)],
+                            areas: [...this.state.areas, area],
                             name: '',
                             image_url: '',
                             colour: '',
@@ -137,10 +137,9 @@ class AreaList extends Component {
                                 text: (areaObj.name + ' added successfully'),
                                 className: 'success'
                             }
-                        }, () => console.log(this.state.addedArea))
+                        })
                     })
                     .catch(err => {
-                        console.log(err);
                         this.setState({
                             flashMessage: {
                                 visible: true,

@@ -8,7 +8,6 @@ class CityAreas extends Component {
     }
     render() {
         const { areas, id, city, addedArea } = this.props;
-        console.log(areas[0])
         return (
             <Table className="areas-table" bordered striped>
                 <thead>
@@ -21,7 +20,7 @@ class CityAreas extends Component {
                 </thead>
                 <tbody>
                     {areas && (
-                        areas[0].map(area => {
+                        areas.map(area => {
                             return (
                                 <tr key={area._id}>
                                     <td>{city}</td>
@@ -50,9 +49,9 @@ class CityAreas extends Component {
             const { areas } = this.props;
             this.setState({
                 areas: areas
-            }, () => console.log(this.state.areas))
+            })
         } else {
-            console.log('No change')
+            
         }
         // console.log(this.props)
         // const newArea = this.props.addedArea;
