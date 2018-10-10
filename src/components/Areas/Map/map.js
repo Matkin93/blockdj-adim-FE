@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
+import { Map, TileLayer, FeatureGroup, LayersControl } from 'react-leaflet';
 import L from 'leaflet';
 import EditControl from '../../Leaflet/EditControl';
+import Draw from 'leaflet-draw';
 import * as API from '../../../utils/api';
 import './map.css';
 
@@ -31,7 +32,17 @@ export default class MapPage extends Component {
             this.submitArea()
         }
         this._onChange();
+    }
 
+    _onEdited = (e) => {
+
+        let numEdited = 0;
+        e.layers.eachLayer((layer) => {
+            numEdited += 1;
+        })
+        console.log(`_onEdited: edited ${numEdited} layers`, e);
+
+        this._onChange();
     }
 
     _onDeleted = (e) => {
@@ -58,21 +69,10 @@ export default class MapPage extends Component {
     }
 
     render() {
-        const { areas } = this.props;
-        const areasObj = areas[0];
-        let area = {};
         let city = this.props.city;
-        let areasArr = [];
-        if (areasObj) Object.keys(areasObj).forEach(key => areasArr.push(key, areasObj[key]));
-        areasArr;
-        areasArr.shift();
-        areasArr = areasArr[0]
-        if (Array.isArray(areasArr)) {
-            getGeoJson(areasArr);
-        }
-        if ((city === '') && (Array.isArray(areasArr))) {
-            API.getArea(this.props.cityId)
-                .then(res => {
+        API.getArea(this.props.cityId)
+            .then(res => {
+                if (res.data.area) {
                     let cityId = res.data.area.city
                     API.getCity(cityId)
                         .then(res => {
@@ -80,8 +80,8 @@ export default class MapPage extends Component {
                                 city: res.data.city.name
                             })
                         })
-                })
-        }
+                }
+            })
 
         const cityCoords = {
             'Leeds': [53.8008, -1.5491],
@@ -94,7 +94,6 @@ export default class MapPage extends Component {
             'Bristol': [51.4545, 2.5879],
             'Sheffield': [53.3811, 1.4701]
         }
-
         return (
             <div>
                 <Map className="map" center={city !== '' ? cityCoords[city] : cityCoords[this.state.city]} zoom={13} zoomControl={false}>
@@ -102,7 +101,7 @@ export default class MapPage extends Component {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                     />
-                    <FeatureGroup ref={(reactFGref) => { this._onFeatureGroupReady(reactFGref); }}>
+                    <FeatureGroup ref={(featureGroup) => { this._onFeatureGroupReady(featureGroup); }}>
                         <EditControl
                             position='topright'
                             onEdited={this._onEdited}
@@ -121,6 +120,23 @@ export default class MapPage extends Component {
                 </Map>
             </div >
         );
+    }
+
+    _editableFG = null
+
+    _onFeatureGroupReady = (featureGroup) => {
+
+        // populate the leaflet FeatureGroup with the geoJson layers
+        // let leafletGeoJSON = new L.GeoJSON(getGeoJson());
+        // console.log(featureGroup);
+        // let leafletFG = featureGroup.leafletElement;
+
+        // leafletGeoJSON.eachLayer((layer) => {
+        //     leafletFG.addLayer(layer);
+        // });
+
+        // // store the ref for future access to content
+        // this._editableFG = featureGroup;
     }
 
     submitArea = () => {
@@ -148,32 +164,6 @@ export default class MapPage extends Component {
         });
     }
 
-    _editableFG = null
-
-    _onFeatureGroupReady = (reactFGref) => {
-        const { areas } = this.props;
-        const areasObj = areas[0];
-        let areasArr = [];
-        if (areasObj) Object.keys(areasObj).forEach(key => areasArr.push(key, areasObj[key]));
-        areasArr;
-        areasArr.shift();
-        areasArr = areasArr[0]
-        if (Array.isArray(areasArr)) {
-            new L.GeoJSON(getGeoJson(areasArr));
-        }
-
-        // populate the leaflet FeatureGroup with the geoJson layers
-        let leafletGeoJSON = new L.GeoJSON(getGeoJson(areasArr));
-        // let leafletFG = reactFGref.leafletElement;
-
-        leafletGeoJSON.eachLayer((layer) => {
-            // leafletFG.addLayer(layer);
-        });
-
-        // store the ref for future access to content
-
-        this._editableFG = reactFGref;
-    }
 
     _onChange = () => {
 
@@ -188,27 +178,59 @@ export default class MapPage extends Component {
         const geojsonData = this._editableFG.leafletElement.toGeoJSON();
         onChange(geojsonData);
     }
-
 }
 
-function getGeoJson(arr) {
-    if (Array.isArray(arr)) {
-        return {
-            "type": "FeatureCollection",
-            "features": [
-                arr.map(area => {
-                    return {
-                        "type": "Feature",
-                        "properties": {},
-                        "geometry": {
-                            "type": "Polygon",
-                            "coordinates": [
-                                area.bounds.coordinates
-                            ]
-                        }
-                    }
-                })
-            ]
-        }
+
+// Should return an array of polygon 'features' to be rendered on map.
+function getGeoJson() {
+    return {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [53.48100468801414, -2.2387456521391873],
+                            [53.47878038942996, -2.2423079609870915],
+                            [53.47766081361639, -2.2397377341985707],
+                            [53.48028162419457, -2.2364030778408055]
+                        ]
+                    ]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [53.48917471214232, -2.2421133331954484],
+                            [53.488341273180986, -2.2454424574971203],
+                            [53.48687822703018, -2.2444911114871506],
+                            [53.48687503516448, -2.2416203096508984],
+                            [53.48784046384097, -2.2404245473444466]
+                        ]
+                    ]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [53.48605057818651, -2.2358848247677092],
+                            [53.48479643124272, -2.2385338414460425],
+                            [53.48210227893245, -2.23463005386293],
+                            [53.484131886909864, -2.2319074440747504]
+                        ]
+                    ]
+                }
+            }
+
+        ]
     }
 }

@@ -8,6 +8,7 @@ import CityAreas from './CityAreas';
 
 class AreaList extends Component {
     state = {
+        areas: [],
         name: '',
         image_url: '',
         colour: '',
@@ -23,7 +24,8 @@ class AreaList extends Component {
     }
     render() {
         // Accessing individual areas for the city
-        const { areas, id } = this.props;
+        const { id } = this.props;
+        const { areas } = this.state;
         return (
             <div>
                 <div className="area-add-div">
@@ -48,8 +50,6 @@ class AreaList extends Component {
                     this.props.city !== '' && (
                         <CityAreas areas={areas} id={id} city={this.props.city} />
                     )
-
-
                 }
             </div >
         );
@@ -61,6 +61,7 @@ class AreaList extends Component {
     }
 
     componentDidMount() {
+        this.getAreas(this.props.id);
         let area = {}
         const id = this.props.id;
         console.log(this.props.city);
@@ -79,6 +80,15 @@ class AreaList extends Component {
                 }, console.log(area))
         }
     }
+
+    getAreas = async (id) => {
+        const res = await API.getCityAreas(id);
+        const { areas } = res.data;
+        this.setState({
+            areas: [...this.state.areas, areas]
+        })
+    }
+
 
     changeValue = (e) => {
         this.setState({
@@ -106,11 +116,15 @@ class AreaList extends Component {
             colour: colour,
             bounds: bounds
         }
+
+
         {
             this.state.bounds.coordinates.length > 0 ?
                 API.addArea(id, areaObj)
                     .then(res => {
+                        console.log(res.data.area)
                         this.setState({
+                            areas: [this.state.areas.concat(res.data.area)],
                             name: '',
                             image_url: '',
                             colour: '',
@@ -123,7 +137,7 @@ class AreaList extends Component {
                                 text: (areaObj.name + ' added successfully'),
                                 className: 'success'
                             }
-                        })
+                        }, () => console.log(this.state.addedArea))
                     })
                     .catch(err => {
                         console.log(err);
@@ -143,7 +157,7 @@ class AreaList extends Component {
                     }
                 })
         }
-        API.getCityAreas(id);
+
     }
 
     componentDidUpdate() {
