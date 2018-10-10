@@ -26,7 +26,6 @@ class AreaList extends Component {
         // Accessing individual areas for the city
         const { id } = this.props;
         const { areas } = this.state;
-        console.log(areas,'AREAS IN STATE')
         return (
             <div>
                 <div className="area-add-div">
@@ -105,24 +104,34 @@ class AreaList extends Component {
     }
 
     submitArea = (id) => {
-        const name = this.state.name;
-        const image_url = this.state.image_url;
-        const colour = this.state.colour;
-        const bounds = this.state.bounds;
+        const { name, image_url, colour, bounds} = this.state;
+    
+        const formatBounds = bounds.coordinates[0].reduce((array, coord) => {
+
+            const obj = {}
+            obj.latitude = coord[0]
+            obj.longitude = coord[1]
+            array.push(obj)
+
+            return array
+        },[])
+        const newBounds = { coordinates: formatBounds}
+        console.log(newBounds)
+
+
+
         const areaObj = {
-            name: name,
-            image_url: image_url,
-            colour: colour,
-            bounds: bounds
+            name,
+            image_url,
+            colour,
+            bounds: newBounds
         }
-
-
         {
             this.state.bounds.coordinates.length > 0 ?
                 API.addArea(id, areaObj)
                     .then(res => {
                         const { area } = res.data
-                        console.log(res.data.area)
+                        console.log(area)
                         this.setState({
                             areas: [...this.state.areas, area],
                             name: '',
