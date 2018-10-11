@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-
 import produce from 'immer';
-
 import CityForm from './Form';
 import CityList from './List';
 import * as api from '../../utils/api';
