@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js';
-import config from '../config';
+import config from '../config.js';
 
-export default class AuthZeroService{
+export default class AuthZeroService {
     auth0 = new auth0.WebAuth({
         domain: config.domain,
         clientID: config.clientID,
@@ -14,19 +14,19 @@ export default class AuthZeroService{
         this.auth0.authorize();
     }
     handleAuthentication = (props) => {
-        const {history} = props;        
+        const { history } = props;
         this.auth0.parseHash((err, authResult) => {
-            if (authResult && authResult.accessToken && authResult.idToken){
+            if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult, props);
                 history.replace('/')
-            }else if(err){
+            } else if (err) {
                 console.log(err);
                 history.replace('/unauthorised');
             }
         })
     }
     setSession = (authResult, props) => {
-        const {history} = props;        
+        const { history } = props;
         const expires = JSON.stringify((authResult.expiresIn * config.authTokenTimeout) + new Date().getTime());
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
