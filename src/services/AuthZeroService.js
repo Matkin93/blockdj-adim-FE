@@ -1,5 +1,5 @@
 import auth0 from 'auth0-js';
-import config from process.env ? process.env : '../config.js';
+import config from '../config.js';
 
 export default class AuthZeroService {
     auth0 = new auth0.WebAuth({
