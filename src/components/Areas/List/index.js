@@ -11,7 +11,7 @@ class AreaList extends Component {
         areas: [],
         name: '',
         image_url: '',
-        colour: '',
+        areaColor: '',
         bounds: {
             type: 'Polygon',
             coordinates: []
@@ -33,14 +33,14 @@ class AreaList extends Component {
                         <form className="new-area-form">
                             < input id="name" onChange={this.changeValue} value={this.state.name} placeholder="area name"></input>
                             <input id="image_url" onChange={this.changeValue} value={this.state.image_url} placeholder="image url"></input>
-                            <input id="colour" onChange={this.changeValue} value={this.state.colour} placeholder="colour"></input>
+                            <input id="areaColor" onChange={this.changeValue} value={this.state.areaColor} placeholder="areaColor"></input>
                             <Button className="area-submit" onClick={() => this.submitArea(id)}>Add Area</Button>
                             {this.state.flashMessage.visible ? <Alert color={this.state.flashMessage.className}>{this.state.flashMessage.text}</Alert> : null}
                         </form>
                         : <form className="edit-area-form">
                             < input id="name" onChange={this.changeValue} value={this.state.name} placeholder="area name"></input>
                             <input id="image_url" onChange={this.changeValue} value={this.state.image_url} placeholder="image url"></input>
-                            <input id="colour" onChange={this.changeValue} value={this.state.colour} placeholder="colour"></input>
+                            <input id="areaColor" onChange={this.changeValue} value={this.state.areaColor} placeholder="areaColor"></input>
                             <Button className="edit-area" onClick={() => this.editArea(id)}>Edit Area</Button>
                             {this.state.flashMessage.visible ? <Alert color={this.state.flashMessage.className}>{this.state.flashMessage.text}</Alert> : null}
                         </form>}
@@ -57,7 +57,6 @@ class AreaList extends Component {
 
     getAreaDetails = async (id) => {
         const res = await API.getArea(id)
-        console.log(res);
     }
 
     componentDidMount() {
@@ -72,7 +71,7 @@ class AreaList extends Component {
                         this.setState({
                             name: area.name,
                             image_url: area.image_url,
-                            colour: area.colour
+                            areaColor: area.areaColor
                         })
                     }
                 }, console.log(area))
@@ -104,8 +103,8 @@ class AreaList extends Component {
     }
 
     submitArea = (id) => {
-        const { name, image_url, colour, bounds} = this.state;
-    
+        const { name, image_url, areaColor, bounds } = this.state;
+
         const formatBounds = bounds.coordinates[0].reduce((array, coord) => {
 
             const obj = {}
@@ -114,18 +113,18 @@ class AreaList extends Component {
             array.push(obj)
 
             return array
-        },[])
-        const newBounds = { coordinates: formatBounds}
-        console.log(newBounds)
+        }, [])
 
-
-
+        console.log(this.state.areaColor)
         const areaObj = {
             name,
             image_url,
-            colour,
-            bounds: newBounds
+            areaColor,
+            bounds: formatBounds
         }
+
+        console.log(areaObj);
+
         {
             this.state.bounds.coordinates.length > 0 ?
                 API.addArea(id, areaObj)
@@ -136,7 +135,7 @@ class AreaList extends Component {
                             areas: [...this.state.areas, area],
                             name: '',
                             image_url: '',
-                            colour: '',
+                            areaColor: '',
                             bounds: {
                                 type: 'Polygon',
                                 coordinates: []
@@ -184,12 +183,12 @@ class AreaList extends Component {
     editArea = (id) => {
         const name = this.state.name;
         const image_url = this.state.image_url;
-        const colour = this.state.colour;
+        const areaColor = this.state.areaColor;
         const bounds = this.state.bounds;
         const areaObj = {
             name: name,
             image_url: image_url,
-            colour: colour,
+            areaColor: areaColor,
             bounds: bounds
         }
         {

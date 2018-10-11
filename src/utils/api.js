@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getAccessToken } from '../utils/common';
 
 // const API_URL = 'http://localhost:9090/api';
-const API_URL = 'https://vast-hamlet-11789.herokuapp.com/';
+const API_URL = 'https://vast-hamlet-11789.herokuapp.com/api';
 
 axios.defaults.headers.common['Authorization'] = `Bearer ${getAccessToken()}`
 
