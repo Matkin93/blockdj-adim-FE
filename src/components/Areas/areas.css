@@ -1,0 +1,26 @@
+.new-area-form, .edit-area-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    width: 45%;
+}
+
+.area-add-div {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+.areas-div {
+    display: flex;
+}
+
+.areas-table {
+    width: 80%;
+    margin: 50px auto;
+}
+
+.area-submit {
+    margin-bottom: 10px;
+}
