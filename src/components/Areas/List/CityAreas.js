@@ -30,7 +30,7 @@ class CityAreas extends Component {
                             )
                         })
                     )}
-                    {areas && this.state.areas && this.state.areas.length === 0 && (
+                    {areas && areas.length === 0 && (
                         <tr>
                             <td colSpan="3">No areas currently added</td>
                         </tr>
